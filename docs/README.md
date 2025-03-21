@@ -11,11 +11,11 @@ The DB was made in mongo (NoSQL) for storing URLs, it doesn't follow an strict s
 a general url has the following format:
 ```JSON
 { 
-        longUrl: ,
-        shortUrl: ,
-        createdAt: ,
-        expiresAt: ,
-        clicks: 
+        longUrl: "www.longurldomain.com",
+        shortUrl: "short_id",
+        createdAt: date_of_creation,
+        expiresAt: date_of_creation + 3 days,
+        clicks: number_of_clicks,
 }
 ```
 
@@ -24,7 +24,7 @@ So an url has, the origin longUrl to redirect to when used, the shortUrl which i
 ## The API
 The API was made as a process made in Koa (similar to express) running in node, it uses a 
 custom middleware for CORS and a validation using an `api-key` in requests headers. While this API Key
-is still public in the frontend it should protect the backend from bots attacks.
+is still public in the frontend it should protect the backend from random bots attacks looking for endpoints.
 
 ### Endpoints
  - POST /newurl:
@@ -37,9 +37,13 @@ is still public in the frontend it should protect the backend from bots attacks.
  - GET /:shortUrl/data:
     - Endpoint used to fetch shortUrl data, it returns the whole mongodb data of that shortUrl. NOTE: Click count does not increase when calling this endpoint.
 
+### URL Generation
+
+This api uses the node package [nanoid](https://www.npmjs.com/package/nanoid) for short URL generation. It generates an unique id of fixed 9 characters and prepends a suffix if given one. This is a simple approach that while it could generate collisions, [it would take ~2 years to have a 1% probability of at least one collision at 1000 IDs per hour](https://zelark.github.io/nano-id-cc/). And collisions are always validated by the unique property of shortUrl index in mongo, so data consistency is guaranteed.
+
 
 ## Deployment
 
-The whole backend is deployed in an EC2 instance in AWS, using NGINX as a reverse proxy for HTTPS. The backend url is in the emails info. The structure of the app can be seen as the following diagram:
+The whole backend is deployed in an EC2 instance in AWS, using NGINX as a reverse proxy for HTTPS using certbot for SSL certificate. The backend url is in the emails info. The structure of the app can be seen as the following diagram:
 
 ![App Structure Diagram](diagram.png)
