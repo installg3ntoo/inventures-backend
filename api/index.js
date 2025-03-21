@@ -42,9 +42,15 @@ const corsOrigins = CORS_ORIGIN.split(',');
 
 // Middleware para habilitar CORS
 app.use(cors({
-        origin: corsOrigins,
-        allowMethods: ['GET', 'POST'],
-        allowHeaders: ['Content-Type', 'Authorization', 'api-key']
+    origin: (ctx) => {
+        const requestOrigin = ctx.request.header.origin;
+        if (corsOrigins.includes(requestOrigin)) {
+            return requestOrigin; // Reflect the request origin if it's allowed
+        }
+        return false; // Disallow other origins
+    },
+    allowMethods: ['GET', 'POST'],
+    allowHeaders: ['Content-Type', 'Authorization', 'api-key']
 }));
 
 // Middleware para analizar el cuerpo de las solicitudes POST
