@@ -44,6 +44,8 @@ This api uses the node package [nanoid](https://www.npmjs.com/package/nanoid) fo
 
 ## Deployment
 
-The whole backend is deployed in an EC2 instance in AWS, using NGINX as a reverse proxy for HTTPS using certbot for SSL certificate. The backend url is in the emails info. The structure of the app can be seen as the following diagram:
+The backend is deployed on an EC2 instance in AWS, using NGINX as a reverse proxy to handle HTTPS with Certbot for SSL certificates. The primary reason for enforcing HTTPS is that the API key is transmitted via cookies. Since cookies can be intercepted in unsecured connections (HTTP), using HTTPS ensures data encryption, preventing potential security risks such as man-in-the-middle (MITM) attacks.
+
+The backend url is in the emails info. The structure of the app can be seen as the following diagram:
 
 ![App Structure Diagram](diagram.png)
