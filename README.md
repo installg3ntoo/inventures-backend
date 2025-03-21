@@ -23,7 +23,7 @@ In the root directory, create a `.env` file following the `.env.example` templat
 * `API_KEY=your_api_key`
     - Your API key for authentication
 * `CORS_ORIGIN=http://localhost:5173`
-    - The origin allowed for CORS, is the url where your frontend runs.
+    - The origin allowed for CORS, is the url where your frontend runs. Multiple origins should be separated by a comma i.e. `http://localhost:5173,http://localhost:4173`
 
 
 Note that API_KEY is shared between backend and frontend so both .env files should have the same api key.
