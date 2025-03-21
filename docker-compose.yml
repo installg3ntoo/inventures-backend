@@ -1,0 +1,31 @@
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      MONGODB_DB: ${MONGODB_DB}
+      MONGODB_URL: ${MONGODB_URL}
+      API_KEY: ${API_KEY}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      PORT: 3000
+
+  db:
+    image: mongo:latest
+    container_name: db #mongo container
+    ports:
+      - 27017:27017
+    volumes:
+      - db-volume:/data/db
+
+
+volumes:
+  db-volume:

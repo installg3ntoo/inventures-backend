@@ -1,0 +1,7 @@
+# Ignorar todas las carpetas node_modules
+**/node_modules/
+
+.env
+
+*.pem
+*.desktop
