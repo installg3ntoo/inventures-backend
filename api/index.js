@@ -37,10 +37,12 @@ async function connect () {
     }
   }
 
+const corsOrigins = CORS_ORIGIN.split(',');
+
 
 // Middleware para habilitar CORS
 app.use(cors({
-        origin: CORS_ORIGIN,
+        origin: corsOrigins,
         allowMethods: ['GET', 'POST'],
         allowHeaders: ['Content-Type', 'Authorization', 'api-key']
 }));
